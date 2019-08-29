@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RChatServer", "RChat\RChatServer.csproj", "{31AD2B23-9FD2-4B0F-AFB4-2EE986F2F5ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RChatServer", "RChatServer\RChatServer.csproj", "{31AD2B23-9FD2-4B0F-AFB4-2EE986F2F5ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RChatClient", "RChatClient\RChatClient.csproj", "{29D6AE13-8ECA-4646-AA47-ECEE79C72170}"
 EndProject

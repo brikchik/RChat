@@ -24,5 +24,5 @@ namespace RChatClient
         {
             InitializeComponent();
         }
-    }
+	}
 }
