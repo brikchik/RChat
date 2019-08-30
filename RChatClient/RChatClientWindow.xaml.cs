@@ -1,28 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
+﻿using System.Windows;
+using RChatShared;
 namespace RChatClient
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+	/// <summary>
+	/// Логика взаимодействия для RChatClientWindow.xaml
+	/// </summary>
+	public partial class RChatClientWindow : Window
     {
-        public MainWindow()
+        public RChatClientWindow()
         {
             InitializeComponent();
-        }
+			ServerAddress.Text = Constants.ServerAddress + ":" + Constants.ServerPort;
+		}
+
+		private void SendButton_Click(object sender, RoutedEventArgs e)
+		{
+			Command command = new Command(Constants.MessageTransferCommand, MessageTextBox.Text);
+			bool success = command.Send(Constants.ServerAddress, Constants.ServerPort);
+			// #### check success
+		}
+
+		private bool Connected = false;
+		private void ConnectButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (Connected)
+			{
+				// отключиться
+				Command command = new Command(Constants.EndCommand);
+				bool success = command.Send(Constants.ServerAddress, Constants.ServerPort);
+				ConnectButton.Content = "Подключиться";
+				Connected = false;
+			}
+			else
+			{
+				// соединиться
+				Command command = new Command(Constants.HelloCommand, "client1");
+				bool success = command.Send(Constants.ServerAddress, Constants.ServerPort);
+				if (success)
+				{
+					ConnectButton.Content = "Отключиться";
+					Connected = true;
+					// #### сделать индикатор зеленым
+				}
+				else
+				{
+					// #### сделать индикатор красным 
+				}
+			}
+		}
 	}
 }
