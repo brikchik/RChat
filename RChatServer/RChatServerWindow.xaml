@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RChatServer"
         mc:Ignorable="d"
-        Title="RChat Server" Height="431.391" Width="800" Closing="ServerWindow_Closing">
+        Title="RChat Server" Height="504.097" Width="800" Closing="ServerWindow_Closing">
     <Grid>
         <GroupBox Header="Чат" Margin="14,-2,10,74"/>
         <TextBlock HorizontalAlignment="Left" Margin="14,0,0,45" TextWrapping="Wrap" Text="Адрес сервера:" Width="125" FontSize="16" Height="23" VerticalAlignment="Bottom"/>

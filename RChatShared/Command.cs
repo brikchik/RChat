@@ -7,52 +7,31 @@ using System.Threading.Tasks;
 
 namespace RChatShared
 {
+	[Serializable]
 	public class Command
 	{
-		private byte[] command; // текст команды, задаваемый в конструкторе
-		// Возможно, стоило бы добавить класс для каждой команды, но это избыточно для 5 простых команд
-		public Command(int type) {
-			switch (type)
-			{
-				case Constants.EndCommand:
-					command = new byte[1];
-					command[0] = Constants.EndCommand;
-					break;
-				default:
-					break;
-			}
+		public int Type; // назначение команды
+		public Message[] Messages; // для сообщений
+		public string ClientToken; // для разделения клиентов.
+		public Command(int type, string clientToken = null) {
+			Type = type;
+			ClientToken = clientToken;
 		}
-		public Command(int type, string message)
+		public Command(int type, Message message)
 		{
-			byte[] messageTextInBytes = Encoding.UTF8.GetBytes(message);
-			byte[] messageLengthInBytes = BitConverter.GetBytes(messageTextInBytes.Length);
-			command = new byte[1 + 4 + messageTextInBytes.Length];
-			command[0] = (byte)type;
-			messageLengthInBytes.CopyTo(command, 1);
-			messageTextInBytes.CopyTo(command, 5);
+			Type = type;
+			Messages = new Message[] { message };
 		}
-		public Command(int type, string[] messages)
+		public Command(int type, Message message, string clientToken)
 		{
-			if (type == Constants.Get10MessagesCommand)
-			{
-				// #### TODO
-			}
+			Type = type;
+			Messages = new Message[] { message };
+			ClientToken = clientToken;
 		}
-		public bool Send(string address, int port) {
-			try
-			{
-				TcpClient client = new TcpClient(address, port);
-				NetworkStream stream = client.GetStream();
-				stream.Write(command, 0, command.Length);
-				stream.Close();
-				return true;
-			}
-			catch
-			{
-				Console.WriteLine("Unable to connect!");
-				return false;
-			}
+		public Command(int type, Message[] messages)
+		{
+			Type = type;
+			Messages = messages;
 		}
-		
 	}
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RChatClient"
         mc:Ignorable="d"
-        Title="RChat Client" Height="450" Width="784">
+        Title="RChat Client" Height="450" Width="784" Closed="RChatClient_Closed">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="390*"/>

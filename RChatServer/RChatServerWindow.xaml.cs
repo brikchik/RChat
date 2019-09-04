@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,66 +30,36 @@ namespace RChatServer
         {
             InitializeComponent();
 			ServerAddress.Text = Constants.ServerAddress + ":" + Constants.ServerPort;
-			ConnectedClients = new List<string>();
+			NetworkOperator.IS_SERVER = true;
+			NetworkOperator._ChatListBox = this.ChatListBox;
+			NetworkOperator._ClientCountLabel = this.ClientCountLabel;
+			NetworkOperator._Dispatcher = this.Dispatcher;
         }
 		private bool Working = false;
 		private CommandReceiver Receiver;
-		public static List<string> ConnectedClients;
-		public static List<string> ChatMessages;
 		private void ControlButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (!Working)
 			{
-				Receiver = new CommandReceiver();
-				Receiver.Start(Constants.ServerAddress, Constants.ServerPort);
+				Receiver = new CommandReceiver(Constants.ServerPort);
+				Receiver.Start();
 				Working = true;
+				PowerIndicator.Fill = Brushes.Green;
 				ControlButton.Content = "Остановить";
 			}
 			else
 			{
 				Receiver.Stop();
 				Working = false;
+				PowerIndicator.Fill = Brushes.Red;
 				ControlButton.Content = "Запустить";
 			}
 		}
-
 		private void ServerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+			Working = false;
 			Receiver.Stop();
 		}
 
-		/// Append the provided message to the ChatListBox text box.
-		/// </summary>
-		/// <param name="message"></param>
-		private void AppendLineToChatListBox(string message)
-		{
-			//To ensure we can successfully append to the text box from any thread
-			//we need to wrap the append within an invoke action.
-			ChatListBox.Dispatcher.BeginInvoke(new Action<string>((messageToAdd) =>
-			{
-				ChatListBox.Items.Add(messageToAdd);
-				ChatListBox.ScrollIntoView(messageToAdd);
-			}), new object[] { message });
-		}
-		/// <summary>
-		/// Refresh the messagesFrom text box using the recent message history.
-		/// </summary>
-		private void RefreshMessagesFromBox()
-		{
-			//We will perform a lock here to ensure the text box is only
-			//updated one thread at  time
-			lock (ChatListBox)
-			{
-				this.messagesFrom.Dispatcher.BeginInvoke(new Action<string[]>((users) =>
-				{
-					//First clear the text box
-					messagesFrom.Text = "";
-
-					//Now write out each username
-					foreach (var username in users)
-						messagesFrom.AppendText(username + "\n");
-				}), new object[] { currentUsers });
-			}
-		}
 	}
 }

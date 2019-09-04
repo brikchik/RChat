@@ -64,7 +64,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data.cs" />
     <Compile Include="RChatServerWindow.xaml.cs">
       <DependentUpon>RChatServerWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
