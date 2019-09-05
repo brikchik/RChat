@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RChatClient"
         mc:Ignorable="d"
-        Title="RChat Client" Height="450" Width="784" Closed="RChatClient_Closed">
+        Title="RChat Client" Height="505.316" Width="784" Closed="RChatClient_Closed">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="390*"/>
             <RowDefinition Height="29*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Чат" Margin="10,-2,10,48">
-            <ListBox x:Name="ChatListBox" Margin="0,10,-2,-1">
+        <GroupBox Header="Чат" Margin="10,-2,10,97">
+            <ListBox x:Name="ChatListBox" Margin="0,10,-2,2">
                 <ListBoxItem Content="Chat initialized..."/>
             </ListBox>
         </GroupBox>
@@ -21,7 +21,9 @@
         <Button x:Name="ConnectButton" Content="Подключиться" Margin="0,0,133,12" Grid.RowSpan="2" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="116" Click="ConnectButton_Click"/>
         <Rectangle x:Name="ConnectionIndicator" Fill="#FF574F4E" Margin="0,0,10,12" Stroke="Black" Grid.RowSpan="2" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="118"/>
         <TextBlock HorizontalAlignment="Left" Margin="14,0,0,18" TextWrapping="Wrap" Text="Отправить сообщение:" Width="178" FontSize="16" Height="25" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="MessageTextBox" Margin="205,0,133,18" TextWrapping="Wrap" Text="Сообщение..." FontSize="16" Height="25" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="MessageTextBox" Margin="205,0,133,18" TextWrapping="Wrap" FontSize="16" Height="25" VerticalAlignment="Bottom" KeyDown="MessageTextBox_KeyDown"/>
         <Button x:Name="SendButton" Content="Отправить" Margin="0,0,10,18" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="118" Click="SendButton_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="14,0,0,58" TextWrapping="Wrap" Text="Имя в чате:" Width="178" FontSize="16" Height="25" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="ClientNameTextBox" Margin="205,0,10,58" TextWrapping="Wrap" Text="Собеседник 1" FontSize="16" Height="25" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

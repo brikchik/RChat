@@ -8,7 +8,7 @@
         Title="RChat Server" Height="504.097" Width="800" Closing="ServerWindow_Closing">
     <Grid>
         <GroupBox Header="Чат" Margin="14,-2,10,74"/>
-        <TextBlock HorizontalAlignment="Left" Margin="14,0,0,45" TextWrapping="Wrap" Text="Адрес сервера:" Width="125" FontSize="16" Height="23" VerticalAlignment="Bottom"/>
+        <TextBlock HorizontalAlignment="Left" Margin="14,0,0,45" TextWrapping="Wrap" Text="Порт сервера:" Width="125" FontSize="16" Height="23" VerticalAlignment="Bottom"/>
         <Rectangle x:Name="PowerIndicator" Fill="#FF574F4E" Margin="0,0,10,45" Stroke="Black" HorizontalAlignment="Right" Width="121" Height="24" VerticalAlignment="Bottom"/>
         <TextBox x:Name="ServerAddress" Margin="144,0,270,44" TextWrapping="Wrap" Text="localhost:4000" FontSize="16" Height="25" VerticalAlignment="Bottom"/>
         <Button x:Name="ControlButton" Content="Запустить" Margin="0,0,136,44" HorizontalAlignment="Right" Width="131" Height="25" VerticalAlignment="Bottom" Click="ControlButton_Click"/>

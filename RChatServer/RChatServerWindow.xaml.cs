@@ -1,48 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using RChatShared;
+using System.Collections.Specialized;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using RChatShared;
 
 namespace RChatServer
 {
-    /// <summary>
-    /// Логика взаимодействия для RChatServerWindow.xaml
-    /// </summary>
-    public partial class RChatServerWindow : Window
+	/// <summary>
+	/// Логика взаимодействия для RChatServerWindow.xaml
+	/// </summary>
+	public partial class RChatServerWindow : Window
     {
         public RChatServerWindow()
         {
             InitializeComponent();
-			ServerAddress.Text = Constants.ServerAddress + ":" + Constants.ServerPort;
+			// прокрутка к последнему элементу чата
+			((INotifyCollectionChanged)ChatListBox.Items).CollectionChanged += ChatListBoxAutoScroll;
+			ServerAddress.Text = NetworkOperator.ServerPort.ToString();
 			NetworkOperator.IS_SERVER = true;
 			NetworkOperator._ChatListBox = this.ChatListBox;
 			NetworkOperator._ClientCountLabel = this.ClientCountLabel;
 			NetworkOperator._Dispatcher = this.Dispatcher;
+
+			NetworkOperator.EnableTimeoutChecks(); // запускаем проверку подключения клиентов
         }
+		private void ChatListBoxAutoScroll(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			ChatListBox.ScrollIntoView(ChatListBox.Items[ChatListBox.Items.Count - 1]);
+		}
 		private bool Working = false;
 		private CommandReceiver Receiver;
 		private void ControlButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (!Working)
 			{
-				Receiver = new CommandReceiver(Constants.ServerPort);
+				try
+				{
+					NetworkOperator.ServerPort = int.Parse(ServerAddress.Text);
+				}
+				catch
+				{
+					MessageBox.Show("Некорректный адрес");
+				}
+				Receiver = new CommandReceiver(NetworkOperator.ServerPort);
 				Receiver.Start();
+				ServerAddress.IsEnabled = false;
 				Working = true;
 				PowerIndicator.Fill = Brushes.Green;
 				ControlButton.Content = "Остановить";
@@ -50,6 +51,7 @@ namespace RChatServer
 			else
 			{
 				Receiver.Stop();
+				ServerAddress.IsEnabled = true;
 				Working = false;
 				PowerIndicator.Fill = Brushes.Red;
 				ControlButton.Content = "Запустить";
@@ -57,8 +59,9 @@ namespace RChatServer
 		}
 		private void ServerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+			// отключаем активность при закрытии окна
 			Working = false;
-			Receiver.Stop();
+			if (Receiver!=null)Receiver.Stop();
 		}
 
 	}
