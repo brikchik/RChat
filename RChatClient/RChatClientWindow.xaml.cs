@@ -23,7 +23,11 @@ namespace RChatClient
 		}
 		private void ChatListBoxAutoScroll(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			ChatListBox.ScrollIntoView(ChatListBox.Items[ChatListBox.Items.Count - 1]);
+			try
+			{
+				ChatListBox.ScrollIntoView(ChatListBox.Items[ChatListBox.Items.Count - 1]);
+			}
+			catch { } // если нет элементов / пользователь действует слишком быстро
 		}
 		private void SendMessage()
 		{

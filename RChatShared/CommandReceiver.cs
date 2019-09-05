@@ -53,7 +53,11 @@ namespace RChatShared
 		{
 			Working = false;
 			TcpServer.Stop();
-			CommandReceiverThread.Abort();
+			try
+			{
+				CommandReceiverThread.Abort();
+			}
+			catch { } // чтобы поток остановил даже операции ожидания соединения
 		}
 	}
 }

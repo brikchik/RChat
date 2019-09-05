@@ -151,7 +151,11 @@ namespace RChatShared
 						}
 						break;
 					case Constants.Get10MessagesCommand: // приходит на сервер
-						Message[] messages = Messages.Skip(Math.Max(0, Messages.Count() - 10)).ToArray(); // берем последние 10 сообщений
+						Message[] messages;
+						if (Messages.Count >= 10)
+							messages = Messages.Skip(Math.Max(0, Messages.Count() - 10)).ToArray(); // берем последние 10 сообщений
+						else
+							messages = Messages.ToArray();
 						Command oldMessagesSendCommand = new Command(Constants.Send10MessagesCommand, messages, command.ClientToken);
 						formatter.Serialize(client.GetStream(), oldMessagesSendCommand);
 						break;
